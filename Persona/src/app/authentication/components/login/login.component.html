@@ -1,0 +1,70 @@
+<div class="login-container">
+    <div class="login-form">
+        <div class="icon-container">
+            <span nz-icon nzType="user" nzTheme="outline" class="user-icon"></span>
+        </div>
+
+        <h1 class="title">Sign in to Persona</h1>
+        <p class="subtitle">Your Personnel Manager</p>
+
+        <form nz-form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="on">
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Please input your email!">
+                    <nz-input-group>
+                        <input type="text" nz-input formControlName="email" placeholder="Email" email />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+
+            <nz-form-item>
+                <nz-form-control nzErrorTip="Please input your password!">
+                    <nz-input-group>
+                        <input type="password" nz-input formControlName="password" placeholder="Password" />
+                    </nz-input-group>
+                </nz-form-control>
+            </nz-form-item>
+
+            <div class="remember-forgot">
+                <label nz-checkbox [(ngModel)]="checked" formControlName="rememberme">Remember me</label>
+                <a class="forgot-link" routerLink="./forgot-password" (click)="forgotPassword()">Forgot Password?</a>
+            </div>
+
+            <button type="submit" nz-button nzType="primary" class="login-button" [nzLoading]="isLoading">
+                Login
+            </button>
+        </form>
+    </div>
+
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="0 0 2400 800" class="wave-svg">
+        <defs>
+            <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="wave-gradient">
+                <stop stop-color="#001529" stop-opacity="1" offset="0%"></stop>
+                <stop stop-color="#112a45" stop-opacity="1" offset="100%"></stop>
+            </linearGradient>
+        </defs>
+        <g fill="url(#wave-gradient)">
+            <path
+                d="M 0 323.8794446748591 Q 600 450 600 312.4444902989013 Q 1200 450 1200 332.7634708407869 Q 1800 450 1800 307.47985735491835 Q 2400 450 2400 323.22036522205434 L 2400 800 L 0 800 L 0 323.2332078087795 Z"
+                transform="matrix(1,0,0,1,0,35)" opacity="0.05"></path>
+            <path
+                d="M 0 323.8794446748591 Q 600 450 600 312.4444902989013 Q 1200 450 1200 332.7634708407869 Q 1800 450 1800 307.47985735491835 Q 2400 450 2400 323.22036522205434 L 2400 800 L 0 800 L 0 323.2332078087795 Z"
+                transform="matrix(1,0,0,1,0,70)" opacity="0.15"></path>
+            <path
+                d="M 0 323.8794446748591 Q 600 450 600 312.4444902989013 Q 1200 450 1200 332.7634708407869 Q 1800 450 1800 307.47985735491835 Q 2400 450 2400 323.22036522205434 L 2400 800 L 0 800 L 0 323.2332078087795 Z"
+                transform="matrix(1,0,0,1,0,105)" opacity="0.25"></path>
+            <path
+                d="M 0 323.8794446748591 Q 600 450 600 312.4444902989013 Q 1200 450 1200 332.7634708407869 Q 1800 450 1800 307.47985735491835 Q 2400 450 2400 323.22036522205434 L 2400 800 L 0 800 L 0 323.2332078087795 Z"
+                transform="matrix(1,0,0,1,0,140)" opacity="0.35"></path>
+            <path
+                d="M 0 323.8794446748591 Q 600 450 600 312.4444902989013 Q 1200 450 1200 332.7634708407869 Q 1800 450 1800 307.47985735491835 Q 2400 450 2400 323.22036522205434 L 2400 800 L 0 800 L 0 323.2332078087795 Z"
+                transform="matrix(1,0,0,1,0,175)" opacity="0.45"></path>
+            <path
+                d="M 0 323.8794446748591 Q 600 450 600 312.4444902989013 Q 1200 450 1200 332.7634708407869 Q 1800 450 1800 307.47985735491835 Q 2400 450 2400 323.22036522205434 L 2400 800 L 0 800 L 0 323.2332078087795 Z"
+                transform="matrix(1,0,0,1,0,210)" opacity="0.55"></path>
+            <path
+                d="M 0 323.8794446748591 Q 600 450 600 312.4444902989013 Q 1200 450 1200 332.7634708407869 Q 1800 450 1800 307.47985735491835 Q 2400 450 2400 323.22036522205434 L 2400 800 L 0 800 L 0 323.2332078087795 Z"
+                transform="matrix(1,0,0,1,0,245)" opacity="0.65"></path>
+        </g>
+    </svg>
+</div>

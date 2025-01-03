@@ -1,0 +1,120 @@
+<nz-layout class="app-layout">
+    <nz-sider class="menu-sidebar" [nzCollapsedWidth]="isLargeScreen ? 75 : 0" nzCollapsible
+        [class.overlay-sider]="!isLargeScreen" (nzCollapsedChange)="onCollapseChange($event)" nzWidth="256px"
+        nzBreakpoint="md" [(nzCollapsed)]="isCollapsed" [nzTrigger]="null">
+        <button *ngIf="!isLargeScreen && !isCollapsed" nz-button nzType="text" class="close-sidebar-btn"
+            (click)="isCollapsed = true">
+            <i nz-icon nzType="close"></i>
+        </button>
+        <div class="sidebar-logo">
+            <a href="https://ng.ant.design/" target="_blank">
+                <img src="https://ng.ant.design/assets/img/logo.svg" alt="logo" />
+                <h1>Persona</h1>
+            </a>
+        </div>
+        <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+            <ng-container *ngFor="let item of menuItems">
+                <nz-submenu *ngIf="item.children && item.children.length" [nzTitle]="item.title" [nzIcon]="item.icon">
+                    <ul>
+                        <li *ngFor="let subItem of item.children" nz-menu-item>
+                            <a *ngIf="subItem.route" [routerLink]="subItem.route">{{
+                                subItem.title
+                                }}</a>
+                            <span *ngIf="!subItem.route">{{ subItem.title }}</span>
+                        </li>
+                    </ul>
+                </nz-submenu>
+                <li *ngIf="!item.children" nz-menu-item>
+                    <i nz-icon *ngIf="item.icon" [nzType]="item.icon"></i>
+                    <span>{{ item.title }}</span>
+                    <a *ngIf="item.route" [routerLink]="item.route"></a>
+                </li>
+            </ng-container>
+        </ul>
+    </nz-sider>
+    <nz-layout>
+        <nz-header>
+            <div class="app-header">
+                <span class="header-trigger">
+                    <span class="trigger" nz-icon [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'"
+                        (click)="isCollapsed = !isCollapsed"></span>
+                </span>
+
+                <div class="headerRightColumn">
+                    <span>
+                        <nz-input-group [nzSuffix]="suffixIconSearch">
+                            <input class="globalSearch" style="border-radius: 20px;" type="text" nz-input
+                                placeholder="Search here" />
+                        </nz-input-group>
+                    </span>
+                    <div class="headerButtons">
+                        <span>
+                            <button class="addDepartment" routerLink="/layout/department-management/department-list"
+                                nz-button nzType="primary">Departments</button>
+                        </span>
+                        <span class="headerNotification">
+                            <nz-avatar nz-button nzTrigger="click" nzPlacement="bottomRight" nzIcon="bell"
+                                nzSize="default"></nz-avatar>
+                        </span>
+                    </div>
+                    <!-- Avatar Dropdown -->
+                    <span class="avatar-content">
+                        <nz-avatar nz-dropdown nzTrigger="click" nzPlacement="bottomRight"
+                            [nzDropdownMenu]="avatarDropdownMenu" nzIcon="user" nzSize="default"></nz-avatar>
+                        <nz-dropdown-menu #avatarDropdownMenu="nzDropdownMenu">
+                            <ul nz-menu class="avatar-dropdown">
+                                <li class="custom-menu-item" nz-menu-item
+                                    routerLink="/layout/profile-management/profile-view">
+                                    <span nz-icon nzType="user" nzTheme="outline"></span>
+                                    Profile
+                                </li>
+                                <li class="custom-menu-item" nz-menu-item>
+                                    <span nz-icon nzType="setting" nzTheme="outline"></span>
+                                    Settings
+                                </li>
+                                <li class="custom-menu-item" nz-menu-item (click)="logout()">
+                                    <span nz-icon nzType="logout" nzTheme="outline"></span>
+                                    Logout
+                                </li>
+
+                                <!-- Dropdown Buttons (Visible on Small/Medium Screens Only) -->
+                                <div class="mobile-header-buttons">
+                                    <li class="custom-menu-item" nz-menu-item
+                                        routerLink="/layout/department-management/department-list">
+                                        <span nz-icon nzType="block" nzTheme="outline"></span>
+                                        Department
+                                    </li>
+                                    <li class="custom-menu-item" nz-menu-item>
+                                        <i nz-icon nzType="bell"></i>
+                                        Notifications
+                                    </li>
+                                </div>
+                            </ul>
+                        </nz-dropdown-menu>
+                    </span>
+                </div>
+            </div>
+        </nz-header>
+
+        <nz-content>
+            <nz-breadcrumb>
+                <nz-breadcrumb-item *ngFor="let breadcrumb of breadcrumbItems; let last = last">
+                    <ng-container *ngIf="!last">
+                        <a [routerLink]="breadcrumb.route">
+                            <span *ngIf="breadcrumb.icon" nz-icon [nzType]="breadcrumb.icon"></span>
+                            <span>{{ breadcrumb.title }}</span>
+                        </a>
+                    </ng-container>
+                    <ng-container *ngIf="last">
+                        <span *ngIf="breadcrumb.icon" nz-icon [nzType]="breadcrumb.icon"></span>
+                        <span>{{ breadcrumb.title }}</span>
+                    </ng-container>
+                </nz-breadcrumb-item>
+            </nz-breadcrumb>
+
+            <div class="inner-content">
+                <router-outlet></router-outlet>
+            </div>
+        </nz-content>
+    </nz-layout>
+</nz-layout>
