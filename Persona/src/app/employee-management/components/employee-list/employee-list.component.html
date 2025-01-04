@@ -1,1 +1,213 @@
-<p>employee-list works!</p>
+<div class="utility-section">
+    <div class="search-box">
+        <!-- <nz-input-group [nzSuffix]="suffixIconSearch" nzSize="default">
+        <input type="text" nz-input placeholder="Search" style="border-radius: 20px;" />
+      </nz-input-group>
+      <ng-template #suffixIconSearch>
+        <span nz-icon nzType="search"></span>
+      </ng-template> -->
+    </div>
+    <div class="add-export">
+        <div class="search-box">
+            <nz-input-group [nzSuffix]="suffixIconSearch" nzSize="default">
+                <input type="text" nz-input placeholder="Search" style="border-radius: 20px;" />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+                <span nz-icon nzType="search"></span>
+            </ng-template>
+        </div>
+        <div class="mr-3">
+            <button nz-button nzSize="default"
+                style="background: #2b9b52; color: #fff; border: #2b9b52; border-radius: 8px;"
+                (click)="showModal()">Add</button>
+            <!-- <nz-modal [(nzVisible)]="isVisible" nzWidth="70%" nzTitle="Add Employee Details" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+          <ng-container *nzModalContent>
+            <app-employees-details></app-employees-details>
+          </ng-container>
+        </nz-modal> -->
+        </div>
+        <div>
+            <button nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+                style="background: #001529; color: #fff; border: #001529; border-radius: 50%;">
+                <span nz-icon nzType="bars" nzTheme="outline"></span>
+            </button>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                    <li nz-menu-item>Export (CSV)</li>
+                    <li nz-menu-item>Export (JSON)</li>
+                    <li nz-menu-item>Export (Text)</li>
+                    <li nz-menu-item>Export (Xlx)</li>
+                </ul>
+            </nz-dropdown-menu>
+        </div>
+    </div>
+</div>
+<nz-table #dynamicTable [nzScroll]="{ x: scrollX, y: scrollY }" [nzData]="listOfData" [nzSimple]="settingValue.simple"
+    [nzLoading]="false" nzPaginationType="small" nzPaginationPosition="bottom" [nzShowPagination]="true"
+    [nzFooter]="settingValue.footer ? 'Total Records ' + this.employeeCount : null"
+    [nzTitle]="settingValue.title ? '' : null" nzSize="small" (nzCurrentPageDataChange)="currentPageDataChange($event)">
+    <thead class="table-head">
+        @if (settingValue.header) {
+        <tr>
+            @if (settingValue.expandable) {
+            <!-- <th nzWidth="40px" [nzLeft]="fixedColumn"></th> -->
+            }
+            @if (settingValue.checkbox) {
+            <th nzWidth="60px" [(nzChecked)]="allChecked" [nzLeft]="fixedColumn" [nzIndeterminate]="indeterminate"
+                (nzCheckedChange)="checkAll($event)"></th>
+            }
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;" [nzLeft]="fixedColumn">Id</th>
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;">Name</th>
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;">Email</th>
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;">Mobile</th>
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;">Gender</th>
+            <!-- <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;">Address</th> -->
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;">Location</th>
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;">State</th>
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;">Date of Birth</th>
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;">Department</th>
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;">Subject</th>
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;">Club</th>
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;" [nzRight]="fixedColumn">Action
+            </th>
+        </tr>
+        }
+    </thead>
+    <tbody style="overflow-x: auto;">
+        <tr class="tBody" *ngFor="let employee of employeeDetails; trackBy: trackByEmployeeId"
+            (click)="openPersonnelDetails(employee.employeeId)">
+            @if (settingValue.checkbox) {
+            <td [nzLeft]="fixedColumn" (nzCheckedChange)="refreshStatus()"></td>
+            }
+            <td [nzLeft]="fixedColumn">{{ employee.employeeId }}</td>
+            <td><b>{{ employee.employeeName }}</b></td>
+            <td [nzEllipsis]="settingValue.ellipsis">{{ employee.email }}</td>
+            <td [nzEllipsis]="settingValue.ellipsis">{{ employee.mobile }}</td>
+            <td>
+                <!-- Check Gender and Display Color -->
+                <ng-container *ngIf="employee.gender === 'Male'; else femaleTag">
+                    <nz-tag nzColor="blue">{{ employee.gender }}</nz-tag>
+                </ng-container>
+                <ng-template #femaleTag>
+                    <nz-tag nzColor="pink">{{ employee.gender }}</nz-tag>
+                </ng-template>
+            </td>
+            <!-- <td [nzEllipsis]="settingValue.ellipsis">{{ employee.addressLine1 }}, {{ employee.addressLine2 }}</td> -->
+            <td [nzEllipsis]="settingValue.ellipsis">{{ employee.location?.locationName }}</td>
+            <td [nzEllipsis]="settingValue.ellipsis">{{ employee.state?.stateName }}</td>
+            <td [nzEllipsis]="settingValue.ellipsis">{{ employee.dateOfBirth | date: 'dd-MM-yyyy'}}</td>
+            <td [nzEllipsis]="settingValue.ellipsis">{{ employee.department?.departmentName }}</td>
+            <td [nzEllipsis]="settingValue.ellipsis">{{ employee.subject?.subjectName }}</td>
+            <td [nzEllipsis]="settingValue.ellipsis">{{ employee.club?.clubName }}</td>
+            <td [nzRight]="fixedColumn" [nzEllipsis]="settingValue.ellipsis">
+                <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this employee's details?"
+                    nzPopconfirmPlacement="bottomRight" (click)="deleteItem(); $event.stopPropagation();"><span nz-icon
+                        nzType="delete" nzTheme="outline" class="delete-button"></span></a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a (click)="updateItem(); $event.stopPropagation();">
+                    <span nz-icon nzType="edit" nzTheme="outline"></span>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+
+<nz-drawer [nzVisible]="drawerVisible" [nzPlacement]="'right'" [nzWidth]="drawerWidth" nzTitle="Employee Details"
+    (nzOnClose)="closeDrawer()">
+    <ng-container *nzDrawerContent>
+        <div *ngIf="selectedEmployee">
+            <div class="employeeId" style="color: #ccc;">
+                <strong>Id: #{{selectedEmployee.employeeCode}}</strong>
+            </div>
+            <hr style="color: #ccc;">
+            <div class="details-block">
+                <div class="details-header" style="display: flex; align-items: center">
+                    <div class="employee-img" style="border-radius: 50%; margin-right: 10px;">
+                        <img height="80px" width="80px"
+                            [src]="selectedEmployee.gender === 'Male' ? 'assets/images/male-employee.png' : 'assets/images/female-employee.png'">
+                    </div>
+                    <div class="employee-name" style="margin-left: 5px; font-size: 1.5rem;">
+                        <strong style="color: #213e59;"> {{selectedEmployee.employeeName}}</strong>
+                        <div class="gender-block" style="display: flex;">
+                            <div class="employee-gender">
+                                <img height="24px" width="24px"
+                                    [src]="selectedEmployee.gender === 'Male' ? 'assets/images/male-fixed.png' : 'assets/images/female.png'">
+                                <span
+                                    style="margin-left: 5px; font-size: 1rem; font-weight: 600; line-height: 1.8;">{{selectedEmployee.gender}}</span>
+                            </div>
+                            <div class="age-block" style="margin-left: 20px;">
+                                <img height="24px" width="24px" src="assets/images/user.png"> <span
+                                    style="margin-left: 5px; font-size: 1rem; line-height: 1.8;">{{selectedEmployee.age}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tabular-view" style="height: 400px;">
+                    <nz-tabset>
+                        <nz-tab nzTitle="Contact Details">
+                            <div class="contact">
+                                <div class="add-1">
+                                    <span nz-icon nzType="home" nzTheme="outline"></span>
+                                    {{selectedEmployee.addressLine1}}
+                                </div>
+                                <div class="add-1">
+                                    <span nz-icon nzType="unordered-list" nzTheme="outline"></span>
+                                    {{selectedEmployee.addressLine2}}
+
+                                </div>
+                                <div class="add-1">
+                                    <span nz-icon nzType="environment" nzTheme="outline"></span>
+                                    {{selectedEmployee.location.locationName}}
+
+                                </div>
+                                <div class="add-1">
+                                    <span nz-icon nzType="fund" nzTheme="outline"></span>
+                                    {{selectedEmployee.state.stateName}}
+
+                                </div>
+                            </div>
+                        </nz-tab>
+                        <nz-tab nzTitle="Education">Content of Tab Pane 3</nz-tab>
+                        <nz-tab nzTitle="Department">Content of Tab Pane 2</nz-tab>
+                        <nz-tab nzTitle="Club">Content of Tab Pane 3</nz-tab>
+                        <nz-tab nzTitle="Awards">Content of Tab Pane 3</nz-tab>
+                    </nz-tabset>
+                </div>
+                <div class="div">
+                    hai
+                </div>
+            </div>
+
+
+            <!-- <div class="employee-details">
+          <h3>{{ selectedEmployee.employeeName }}</h3>
+          <p><strong>Email:</strong> {{ selectedEmployee.email }}</p>
+          <p><strong>Mobile:</strong> {{ selectedEmployee.mobile }}</p>
+          <p><strong>Gender:</strong> {{ selectedEmployee.gender }}</p>
+          <p><strong>Address:</strong> {{ selectedEmployee.address }}</p>
+          <p><strong>Date of Birth:</strong> {{ selectedEmployee.dateOfBirth }}</p>
+          <p><strong>Department:</strong> {{ selectedEmployee.department?.departmentName }}</p>
+          <p><strong>Subject:</strong> {{ selectedEmployee.subject?.subjectName }}</p>
+          <p><strong>Club:</strong> {{ selectedEmployee.club?.clubName }}</p>
+        </div> -->
+
+
+        </div>
+    </ng-container>
+</nz-drawer>
+
+
+<nz-modal [(nzVisible)]="isVisible" nzWidth="60%" [nzStyle]="{ 'border-radius': '6px', 'overflow': 'hidden' }"
+    nzTitle="Add Employee Details" nzOkText="Save" (nzOnCancel)="handleCancel()" [nzFooter]="footerTemplate">
+    <ng-container *nzModalContent="">
+        <app-employee-details></app-employee-details>
+    </ng-container>
+</nz-modal>
+
+<ng-template #footerTemplate>
+    <div style="background: #fff; text-align: right;">
+        <button class="cancelModel" nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+        <button style="background: #001529; color: #fff; border: #001529; border-radius: 8px;" nz-button
+            nzType="primary" (click)="handleOk()">Save</button>
+    </div>
+</ng-template>

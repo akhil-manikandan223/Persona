@@ -1,1 +1,93 @@
-<p>employee-details works!</p>
+<form nz-form [formGroup]="employeeForm" (ngSubmit)="saveEmployee()">
+    <div nz-row nzGutter="16">
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="8">
+            <label nz-form-label for="categoryId">Employee Category</label>
+            <nz-select formControlName="categoryId" [nzPlaceHolder]="'Select a category'" [nzShowSearch]="true"
+                [nzAllowClear]="true" style="width: 100%;">
+                <nz-option *ngFor="let category of allCategories" [nzValue]="category.categoryId"
+                    [nzLabel]="category.categoryName"></nz-option>
+            </nz-select>
+        </div>
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="8">
+            <label nz-form-label for="employeeName">Name</label>
+            <input nz-input formControlName="employeeName" placeholder="Enter Name" />
+        </div>
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="8">
+            <label nz-form-label for="email">Email</label>
+            <input nz-input formControlName="email" placeholder="Enter Email" />
+        </div>
+    </div>
+
+    <div nz-row nzGutter="16" class="division">
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="8">
+            <label nz-form-label for="mobile">Mobile</label>
+            <input nz-input formControlName="mobile" placeholder="Enter Mobile Number" />
+        </div>
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="8">
+            <nz-radio-group formControlName="gender" style="padding-top: 18px;">
+                <label nz-radio nzValue="Male">Male</label>
+                <label nz-radio nzValue="Female">Female</label>
+            </nz-radio-group>
+        </div>
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="8">
+            <label nz-form-label for="dateOfBirth">Date of Birth</label>
+            <nz-date-picker formControlName="dateOfBirth" style="width: 100%;"></nz-date-picker>
+        </div>
+    </div>
+
+    <div nz-row nzGutter="16" class="division">
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="8">
+            <label nz-form-label for="addressLine1">Address Line 1</label>
+            <input nz-input formControlName="addressLine1" placeholder="Enter Address" />
+        </div>
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="8">
+            <label nz-form-label for="addressLine2">Address Line 2</label>
+            <input nz-input formControlName="addressLine2" placeholder="Enter Address" />
+        </div>
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="8">
+            <label nz-form-label for="locationId">Location</label>
+            <nz-select formControlName="locationId" [nzPlaceHolder]="'Select a location'" [nzShowSearch]="true"
+                [nzAllowClear]="true" style="width: 100%;">
+                <nz-option *ngFor="let location of allLocations" [nzValue]="location.locationId"
+                    [nzLabel]="location.locationName"></nz-option>
+            </nz-select>
+        </div>
+    </div>
+
+    <div nz-row nzGutter="16" class="division">
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="8">
+            <label nz-form-label for="stateId">State</label>
+            <nz-select formControlName="stateId" [nzPlaceHolder]="'Select a state'" [nzShowSearch]="true"
+                [nzAllowClear]="true" style="width: 100%;">
+                <nz-option *ngFor="let state of allStates" [nzValue]="state.stateId"
+                    [nzLabel]="state.stateName"></nz-option>
+            </nz-select>
+        </div>
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="8">
+            <label nz-form-label for="subjectId">Subject</label>
+            <nz-select formControlName="subjectId" [nzPlaceHolder]="'Select a subject'" [nzShowSearch]="true"
+                [nzAllowClear]="true" style="width: 100%;">
+                <nz-option *ngFor="let subject of allSubjects" [nzValue]="subject.subjectId"
+                    [nzLabel]="subject.subjectName"></nz-option>
+            </nz-select>
+        </div>
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="8">
+            <label nz-form-label for="departmentId">Department</label>
+            <nz-select formControlName="departmentId" [nzPlaceHolder]="'Select a department'" [nzShowSearch]="true"
+                [nzAllowClear]="true" style="width: 100%;">
+                <nz-option *ngFor="let department of allDepartments" [nzValue]="department.departmentId"
+                    [nzLabel]="department.departmentName"></nz-option>
+            </nz-select>
+        </div>
+    </div>
+
+    <div nz-row nzGutter="16" class="division">
+        <div nz-col [nzXs]="24" [nzSm]="24" [nzMd]="12" [nzLg]="8">
+            <label nz-form-label for="clubId">Club</label>
+            <nz-select formControlName="clubId" [nzPlaceHolder]="'Select a club'" [nzShowSearch]="true"
+                [nzAllowClear]="true" style="width: 100%;">
+                <nz-option *ngFor="let club of allClubs" [nzValue]="club.clubId" [nzLabel]="club.clubName"></nz-option>
+            </nz-select>
+        </div>
+    </div>
+</form>

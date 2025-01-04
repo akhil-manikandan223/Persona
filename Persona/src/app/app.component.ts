@@ -13,5 +13,5 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  isCollapsed = false;
+  title = 'Persona'
 }

@@ -40,7 +40,7 @@ export const MENU_ITEMS: MenuItem[] = [
     {
         title: 'Manage Employees',
         icon: 'fund-projection-screen',
-        route: '/layout/teachers-management/teachers-list',
+        route: '/layout/employee-management/employee-list',
         breadcrumb: { title: 'Manage Employees', icon: 'fund-projection-screen' }
     },
     {

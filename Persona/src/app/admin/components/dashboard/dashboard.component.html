@@ -1,0 +1,69 @@
+<nz-row [nzGutter]="16">
+    <nz-col [nzXs]="6" [nzSm]="12" [nzMd]="12" [nzLg]="6" [nzXl]="6" class="dashboard-card">
+        <nz-card>
+            <nz-statistic [nzValue]="944.42" [nzTitle]="'Balance'"></nz-statistic>
+        </nz-card>
+    </nz-col>
+
+    <nz-col [nzXs]="6" [nzSm]="12" [nzMd]="12" [nzLg]="6" [nzXl]="6" class="dashboard-card">
+        <nz-card>
+            <nz-statistic [nzValue]="576.78" [nzTitle]="'Earnings'"></nz-statistic>
+        </nz-card>
+    </nz-col>
+
+    <nz-col [nzXs]="6" [nzSm]="12" [nzMd]="12" [nzLg]="6" [nzXl]="6" class="dashboard-card">
+        <nz-card id="expense-card">
+            <nz-statistic [nzValue]="421.59" [nzTitle]="'Expenses'"></nz-statistic>
+        </nz-card>
+    </nz-col>
+
+    <nz-col [nzXs]="6" [nzSm]="12" [nzMd]="12" [nzLg]="6" [nzXl]="6" class="dashboard-card">
+        <nz-card>
+            <nz-statistic [nzValue]="51.2" [nzTitle]="'Growth'"></nz-statistic>
+        </nz-card>
+    </nz-col>
+</nz-row>
+
+<nz-row [nzGutter]="16" class="charts-row mt-4">
+    <nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="18" [nzXl]="18">
+        <nz-card>
+            <nz-card-meta [nzTitle]="'Customer Growth'" [nzDescription]="'Monthly active users'"></nz-card-meta>
+        </nz-card>
+    </nz-col>
+
+    <nz-col [nzXs]="24" [nzSm]="24" [nzMd]="24" [nzLg]="6" [nzXl]="6">
+        <nz-card>
+            <nz-card-meta [nzTitle]="'Expenses Summary'" [nzDescription]="'Monthly expenses breakdown'"></nz-card-meta>
+        </nz-card>
+
+        <nz-card class="mt-2">
+            <nz-card-meta [nzTitle]="'Revenue Summary'" [nzDescription]="'Quarterly revenue analysis'"></nz-card-meta>
+        </nz-card>
+    </nz-col>
+</nz-row>
+
+<nz-row class="dashboard-grid" *ngIf="!isMobileView">
+    <nz-col [nzSpan]="12" class="dashboard-card">
+        <nz-card>
+            <nz-statistic [nzValue]="944.42" [nzTitle]="'Balance'"></nz-statistic>
+        </nz-card>
+    </nz-col>
+
+    <nz-col [nzSpan]="12" class="dashboard-card">
+        <nz-card>
+            <nz-statistic [nzValue]="576.78" [nzTitle]="'Earnings'"></nz-statistic>
+        </nz-card>
+    </nz-col>
+
+    <nz-col [nzSpan]="12" class="dashboard-card">
+        <nz-card>
+            <nz-statistic [nzValue]="421.59" [nzTitle]="'Expenses'"></nz-statistic>
+        </nz-card>
+    </nz-col>
+
+    <nz-col [nzSpan]="12" class="dashboard-card">
+        <nz-card>
+            <nz-statistic [nzValue]="51.2" [nzTitle]="'Growth'"></nz-statistic>
+        </nz-card>
+    </nz-col>
+</nz-row>

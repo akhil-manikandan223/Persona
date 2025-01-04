@@ -1,0 +1,93 @@
+// Container for grid layout on small screens
+.dashboard-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px; // Spacing between cards
+  padding: 16px;
+}
+
+// Styling for each dashboard card
+.dashboard-card {
+  width: 50%; // Make each card occupy half of the screen width
+  padding: 4px; // Adjust padding for spacing
+
+  .ant-card {
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.09);
+    height: 100%; // Ensures cards have equal height
+  }
+
+  .ant-card-body {
+    padding: 16px;
+  }
+
+  .ant-statistic {
+    .ant-statistic-title {
+      font-size: 14px;
+    }
+    .ant-statistic-content {
+      font-size: 20px;
+    }
+  }
+}
+
+// Media query for small screens
+// Media query for extra small screens (e.g., mobile devices)
+@media (max-width: 576px) {
+  nz-rwo {
+    display: flex;
+
+    .charts-row {
+      margin-top: 14px;
+    }
+  }
+
+  .dashboard-grid {
+    gap: 4px;
+    padding: 8px;
+    justify-content: center; // Center the cards on small screens
+  }
+
+  .dashboard-card {
+    width: 80px; // Smaller size for icon-like appearance
+    height: 80px; // Make it square-shaped
+    padding: 0; // Remove extra padding for compact size
+    font-size: xx-small;
+    // border: solid 1px black;
+
+    nz-card {
+      width: 80px; // Smaller size for icon-like appearance
+      height: 80px;
+    }
+
+    .ant-card {
+      height: 100%; // Ensure the card fills the container
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+    }
+
+    .ant-card-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0; // Remove padding for a compact layout
+    }
+
+    .ant-statistic {
+      .ant-statistic-title {
+        font-size: 10px; // Smaller font for title  
+        text-align: center;
+      }
+      .ant-statistic-content {
+        font-size: 14px; // Smaller font for content
+        text-align: center;
+      }
+      .ant-statistic-value {
+        font-size: 10px; // Smaller font for content
+        text-align: center;
+      }
+    }
+  }
+}
