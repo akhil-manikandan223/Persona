@@ -63,6 +63,10 @@ export class LoginComponent {
     } 
   }
 
+  goToSignUp(): void {
+    this.router.navigate(['./auth/register'])
+  }
+
 
   forgotPassword(): void {
     this.router.navigate(['./forgot-password'])

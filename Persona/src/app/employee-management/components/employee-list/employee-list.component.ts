@@ -10,8 +10,6 @@ import { Employees } from '../../../utils/models';
 import { EmployeeService } from '../../services/employee.service';
 import { NgZorroModule } from '../../../shared/Ng-ZorroModules';
 
-
-
 interface ItemData {
   name: string;
   age: number | string;
@@ -60,7 +58,7 @@ export class EmployeeListComponent implements OnInit {
 
   employeeDetails: Employees[] = [];
   employeeCount: any;
-  drawerVisible = false;  
+  drawerVisible = false;
   drawerWidth: string = '60%';
   selectedEmployee: any = null;
   loading = false;
@@ -189,7 +187,7 @@ export class EmployeeListComponent implements OnInit {
       sizeChanger: [false],
       title: [true],
       header: [true],
-      footer: [true],
+      footer: [false],
       expandable: [true],
       checkbox: [true],
       fixHeader: [true],
@@ -199,7 +197,7 @@ export class EmployeeListComponent implements OnInit {
       simple: [false],
       size: 'small' as NzTableSize,
       paginationType: 'default' as NzTablePaginationType,
-      tableScroll: 'unset' as TableScroll,
+      tableScroll: 'scroll' as TableScroll,
       tableLayout: 'auto' as NzTableLayout,
       position: 'bottom' as NzTablePaginationPosition
     });
@@ -246,13 +244,13 @@ export class EmployeeListComponent implements OnInit {
   handleOk(): void {
     this.employeeDetailsComponent.saveEmployee();
     this.employeeDetailsComponent.employeeAdded.subscribe(() => {
-      this.getEmployeeInfo(); // Refresh teacher list
-      this.isVisible = false; // Close the modal
+      this.getEmployeeInfo();
+      this.isVisible = false;
     });
   }
 
   handleCancel(): void {
-    this.isVisible = false; // Close the modal
+    this.isVisible = false;
   }
 
   openPersonnelDetails(employeeId: any): void {
@@ -262,7 +260,6 @@ export class EmployeeListComponent implements OnInit {
       (data: any) => {
         this.selectedEmployee = data;
 
-        // Calculate age if dateOfBirth is available
         if (this.selectedEmployee.dateOfBirth) {
           this.selectedEmployee.age = this.calculateAge(this.selectedEmployee.dateOfBirth);
         } else {
@@ -284,13 +281,12 @@ export class EmployeeListComponent implements OnInit {
   setDrawerWidth(): void {
     const width = window.innerWidth;
 
-    // Adjust drawer width based on screen size
     if (width <= 576) {
-      this.drawerWidth = '100%'; // Full width for small screens
+      this.drawerWidth = '100%';
     } else if (width <= 768) {
-      this.drawerWidth = '90%'; // 90% width for medium screens
+      this.drawerWidth = '90%';
     } else {
-      this.drawerWidth = '60%'; // Default width for larger screens
+      this.drawerWidth = '60%';
     }
   }
 
@@ -324,14 +320,14 @@ export class EmployeeListComponent implements OnInit {
       this.age = this.calculateAge(this.employeeDetails[index].dateOfBirth);
     } else {
       console.error('Date of birth is not available for the employee at index:', index);
-      this.age = 0; // Or handle it appropriately
+      this.age = 0;
     }
   }
 
   getGenderImage(gender: string | undefined): string {
     if (!gender) {
       console.log(gender)
-      return 'assets/images/default.png'; // Provide a default image if gender is undefined
+      return 'assets/images/default.png';
     }
     return gender.toLowerCase() === 'male' ? 'assets/images/male.png' : 'assets/images/female.png';
   }
@@ -349,5 +345,4 @@ export class EmployeeListComponent implements OnInit {
   showModal(): void {
     this.isVisible = true;
   }
-
 }

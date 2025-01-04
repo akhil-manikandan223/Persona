@@ -4,7 +4,7 @@
             <span nz-icon nzType="user" nzTheme="outline" class="user-icon"></span>
         </div>
 
-        <h1 class="title">Sign in to Persona</h1>
+        <h1 class="title">Sign in to <span class="appName">Persona</span></h1>
         <p class="subtitle">Your Personnel Manager</p>
 
         <form nz-form [formGroup]="loginForm" (ngSubmit)="login()" autocomplete="on">
@@ -26,12 +26,15 @@
 
             <div class="remember-forgot">
                 <label nz-checkbox [(ngModel)]="checked" formControlName="rememberme">Remember me</label>
-                <a class="forgot-link" routerLink="./forgot-password" (click)="forgotPassword()">Forgot Password?</a>
+                <a class="forgot-link" (click)="forgotPassword()">Forgot Password?</a>
             </div>
 
             <button type="submit" nz-button nzType="primary" class="login-button" [nzLoading]="isLoading">
                 Login
             </button>
+            <div class="signup">
+                <a (click)="goToSignUp()">Sign Up</a>
+            </div>
         </form>
     </div>
 

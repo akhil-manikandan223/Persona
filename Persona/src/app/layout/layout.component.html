@@ -63,6 +63,17 @@
                             [nzDropdownMenu]="avatarDropdownMenu" nzIcon="user" nzSize="default"></nz-avatar>
                         <nz-dropdown-menu #avatarDropdownMenu="nzDropdownMenu">
                             <ul nz-menu class="avatar-dropdown">
+                                <div class="mobile-header-buttons">
+                                    <li class="custom-menu-item" nz-menu-item
+                                        routerLink="/layout/department-management/department-list">
+                                        <span nz-icon nzType="block" nzTheme="outline"></span>
+                                        Department
+                                    </li>
+                                    <li class="custom-menu-item" nz-menu-item>
+                                        <i nz-icon nzType="bell"></i>
+                                        Notifications
+                                    </li>
+                                </div>
                                 <li class="custom-menu-item" nz-menu-item
                                     routerLink="/layout/profile-management/profile-view">
                                     <span nz-icon nzType="user" nzTheme="outline"></span>
@@ -76,19 +87,6 @@
                                     <span nz-icon nzType="logout" nzTheme="outline"></span>
                                     Logout
                                 </li>
-
-                                <!-- Dropdown Buttons (Visible on Small/Medium Screens Only) -->
-                                <div class="mobile-header-buttons">
-                                    <li class="custom-menu-item" nz-menu-item
-                                        routerLink="/layout/department-management/department-list">
-                                        <span nz-icon nzType="block" nzTheme="outline"></span>
-                                        Department
-                                    </li>
-                                    <li class="custom-menu-item" nz-menu-item>
-                                        <i nz-icon nzType="bell"></i>
-                                        Notifications
-                                    </li>
-                                </div>
                             </ul>
                         </nz-dropdown-menu>
                     </span>

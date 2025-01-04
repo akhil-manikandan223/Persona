@@ -26,7 +26,7 @@
         font-size: 2rem;
         padding: 0.75rem;
         border-radius: 50%;
-        background: #001529;
+        background: #ccc;
         color: #fff;
     }
 }
@@ -37,6 +37,20 @@
     margin-bottom: 0.5rem;
     font-size: 1.5rem;
     font-weight: 500;
+}
+
+.appName {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.signup {
+    margin-top: 5px;
+    text-align: center;
+
+    a {
+        color: #001529;
+    }
 }
 
 .subtitle {
