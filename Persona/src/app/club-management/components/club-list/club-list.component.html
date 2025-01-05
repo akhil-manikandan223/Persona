@@ -1,1 +1,194 @@
-<p>club-list works!</p>
+<div class="utility-section">
+    <div class="search-box">
+        <strong class="pageTitle">List of clubs</strong>
+    </div>
+    <div class="add-export">
+        <div class="search-box">
+            <nz-input-group [nzSuffix]="suffixIconSearch" nzSize="default">
+                <input type="text" nz-input placeholder="Search" style="border-radius: 20px;" />
+            </nz-input-group>
+            <ng-template #suffixIconSearch>
+                <span nz-icon nzType="search"></span>
+            </ng-template>
+        </div>
+        <div class="mr-3">
+            <button nz-button nzSize="default"
+                style="background: #2b9b52; color: #fff; border: #2b9b52; border-radius: 8px;"
+                (click)="showModal()">Add</button>
+        </div>
+        <div>
+            <button nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+                style="background: #e7e7e7; color: #333; border: #ccc; border-radius: 50%;">
+                <span nz-icon nzType="filter" nzTheme="outline"></span>
+            </button>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                    <li nz-menu-item>Export (CSV)</li>
+                    <li nz-menu-item>Export (JSON)</li>
+                    <li nz-menu-item>Export (Text)</li>
+                    <li nz-menu-item>Export (Xlx)</li>
+                </ul>
+            </nz-dropdown-menu>
+        </div>
+        <div>
+            <button nz-button nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu"
+                style="background: #e7e7e7; color: #333; border: #ccc; border-radius: 50%;">
+                <span nz-icon nzType="bars" nzTheme="outline"></span>
+            </button>
+            <nz-dropdown-menu #menu="nzDropdownMenu">
+                <ul nz-menu>
+                    <li nz-menu-item>Export (CSV)</li>
+                    <li nz-menu-item>Export (JSON)</li>
+                    <li nz-menu-item>Export (Text)</li>
+                    <li nz-menu-item>Export (Xlx)</li>
+                </ul>
+            </nz-dropdown-menu>
+        </div>
+    </div>
+</div>
+<nz-table #dynamicTable [nzScroll]="{ x: scrollX, y: scrollY }" [nzData]="listOfData" [nzSimple]="settingValue.simple"
+    [nzLoading]="false" nzPaginationType="small" nzPaginationPosition="bottom" [nzShowPagination]="true"
+    [nzFooter]="settingValue.footer ? 'Total Records ' + this.clubCount : null"
+    [nzTitle]="settingValue.title ? '' : null" nzSize="small" (nzCurrentPageDataChange)="currentPageDataChange($event)">
+    <thead class="table-head">
+        @if (settingValue.header) {
+        <tr>
+            @if (settingValue.expandable) {
+            <!-- <th nzWidth="40px" [nzLeft]="fixedColumn"></th> -->
+            }
+            @if (settingValue.checkbox) {
+            <th nzWidth="60px" [(nzChecked)]="allChecked" [nzLeft]="fixedColumn" [nzIndeterminate]="indeterminate"
+                (nzCheckedChange)="checkAll($event)"
+                style="background: #213e59;color: #fff; border-right: solid 1px #fff;"></th>
+            }
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;" [nzLeft]="fixedColumn">Id</th>
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;">Name</th>
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;">Total Members</th>
+            <th style="background: #213e59;color: #fff; border-right: solid 1px #fff;" [nzRight]="fixedColumn">Action
+            </th>
+        </tr>
+        }
+    </thead>
+    <tbody style="overflow-x: auto;">
+        <tr class="tBody" *ngFor="let club of clubDetails; trackBy: trackByclubId"
+            (click)="openClubDetails(club.clubId)">
+            @if (settingValue.checkbox) {
+            <td [nzLeft]="fixedColumn" (nzCheckedChange)="refreshStatus()"></td>
+            }
+            <td [nzLeft]="fixedColumn">{{ club.clubId }}</td>
+            <td><b>{{ club.clubName }}</b></td>
+            <td>{{ count[clubDetails.indexOf(club)] || 'Loading...' }}</td>
+            <td [nzRight]="fixedColumn" [nzEllipsis]="settingValue.ellipsis">
+                <a nz-popconfirm nzPopconfirmTitle="Are you sure delete this club's details?"
+                    nzPopconfirmPlacement="bottomRight" (click)="deleteItem(); $event.stopPropagation();"><span nz-icon
+                        nzType="delete" nzTheme="outline" class="delete-button"></span></a>
+                <nz-divider nzType="vertical"></nz-divider>
+                <a (click)="updateItem(); $event.stopPropagation();">
+                    <span nz-icon nzType="edit" nzTheme="outline"></span>
+                </a>
+            </td>
+        </tr>
+    </tbody>
+</nz-table>
+
+<ng-template #drawerTitle>
+    <div class="drawerHeadTitle">
+        <strong>Club Details</strong>
+    </div>
+</ng-template>
+
+<nz-drawer [nzVisible]="drawerVisible" [nzPlacement]="'right'" [nzWidth]="drawerWidth" [nzTitle]="drawerTitle"
+    (nzOnClose)="closeDrawer()">
+    <ng-container *nzDrawerContent>
+        <div *ngIf="selectedclub">
+            <div class="clubId" style="color: #ccc;">
+                <strong>{{selectedclub.clubName}}</strong>
+            </div>
+            <hr style="color: #ccc;">
+            <div class="details-block">
+                <div class="details-header" style="display: flex; align-items: center;">
+                </div>
+                <div class="tabular-view" style="height: 400px;">
+                    <nz-tabset>
+                        <nz-tab nzTitle="Students">
+                            <nz-table #basicTable [nzBordered]="true" [nzData]="studentMembers" [nzSize]="'middle'"
+                                [nzShowPagination]="false" [nzBordered]="true" [nzSize]="'middle'">
+                                <thead>
+                                    <!-- <tr>
+                                        <th nzWidth="25%">Student Name</th>
+                                        <th nzWidth="25%">Gender</th>
+                                        <th nzWidth="25%">Class Name</th>
+                                        <th nzWidth="25%">Mobile</th>
+                                    </tr> -->
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let student of studentMembers">
+                                        <td>{{ student.studentName }}</td>
+                                        <td>{{ student.gender }}</td>
+                                        <td>{{ student.className }}</td>
+                                        <td>{{ student.mobile }}</td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+
+                            <ng-template #noStudents>
+                                <p>No students found for this club.</p>
+                            </ng-template>
+
+                        </nz-tab>
+                        <nz-tab nzTitle="Employees">
+                            <nz-table #basicTable [nzBordered]="true" [nzData]="employeeMembers" [nzSize]="'middle'"
+                                [nzShowPagination]="false" [nzBordered]="true" [nzSize]="'middle'">
+                                <thead></thead>
+                                <tbody>
+                                    <tr *ngFor="let employee of employeeMembers">
+                                        <td>
+                                            <img height="50px" width="50px" style="border-radius: 50%;"
+                                                [src]="employee.gender === 'Male' ? 'assets/images/business-man.png' : 'assets/images/businesswoman (1).png'">
+                                        </td>
+                                        <td>{{ employee.employeeName }}</td>
+                                        <td>{{ employee.department?.departmentName }}</td>
+                                        <td>{{ employee.mobile }}</td>
+                                    </tr>
+                                </tbody>
+                            </nz-table>
+
+                            <div class="employeeDatas" *ngIf="employeeMembers">
+                                <div class="employeeDetailsContent" *ngFor="let employee of employeeMembers">
+                                    <div class="employeeImage">
+                                        <img height="50px" width="50px" style="border-radius: 50%;"
+                                            [src]="employee.gender === 'Male' ? 'assets/images/business-man.png' : 'assets/images/businesswoman (1).png'">
+                                    </div>
+                                    <div class="employeeName">
+                                        <strong>{{ employee.employeeName }}</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </nz-tab>
+                    </nz-tabset>
+                </div>
+
+
+                <div class="div">
+                    hai
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</nz-drawer>
+
+
+<nz-modal [(nzVisible)]="isVisible" nzWidth="60%" [nzStyle]="{ 'border-radius': '6px', 'overflow': 'hidden' }"
+    nzTitle="Add club Details" nzOkText="Save" (nzOnCancel)="handleCancel()" [nzFooter]="footerTemplate">
+    <ng-container *nzModalContent="">
+        <app-club-details></app-club-details>
+    </ng-container>
+</nz-modal>
+
+<ng-template #footerTemplate>
+    <div style="background: #fff; text-align: right;">
+        <button class="cancelModel" nz-button nzType="default" (click)="handleCancel()">Cancel</button>
+        <button style="background: #2b9b52; color: #fff; border: #2b9b52; border-radius: 8px;" nz-button
+            nzType="primary" (click)="handleOk()">Save</button>
+    </div>
+</ng-template>

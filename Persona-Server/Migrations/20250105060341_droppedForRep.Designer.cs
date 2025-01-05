@@ -4,6 +4,7 @@ using EduBrain.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EduBrain.Migrations
 {
     [DbContext(typeof(EduBrainContext))]
-    partial class EduBrainContextModelSnapshot : ModelSnapshot
+    [Migration("20250105060341_droppedForRep")]
+    partial class droppedForRep
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -47,22 +50,19 @@ namespace EduBrain.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("ClubId")
+                    b.Property<int>("ClubId")
                         .HasColumnType("int");
 
                     b.Property<int?>("ClubId1")
                         .HasColumnType("int");
 
-                    b.Property<int?>("EmployeeId")
+                    b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
                     b.Property<int?>("EmployeeId1")
                         .HasColumnType("int");
 
-                    b.Property<int?>("StudentId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("StudentId1")
+                    b.Property<int>("StudentId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -76,8 +76,6 @@ namespace EduBrain.Migrations
                     b.HasIndex("EmployeeId1");
 
                     b.HasIndex("StudentId");
-
-                    b.HasIndex("StudentId1");
 
                     b.ToTable("ClubReps");
                 });
@@ -606,7 +604,8 @@ namespace EduBrain.Migrations
                     b.HasOne("EduBrain.Models.Clubs.Club", "Club")
                         .WithMany()
                         .HasForeignKey("ClubId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("EduBrain.Models.Clubs.Club", null)
                         .WithMany("ClubReps")
@@ -615,20 +614,18 @@ namespace EduBrain.Migrations
                     b.HasOne("EduBrain.Models.Employees.Employee", "Employee")
                         .WithMany()
                         .HasForeignKey("EmployeeId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
 
                     b.HasOne("EduBrain.Models.Employees.Employee", null)
                         .WithMany("ClubReps")
                         .HasForeignKey("EmployeeId1");
 
                     b.HasOne("Student", "Student")
-                        .WithMany()
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("Student", null)
                         .WithMany("ClubReps")
-                        .HasForeignKey("StudentId1");
+                        .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Club");
 

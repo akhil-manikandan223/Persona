@@ -6,6 +6,7 @@ using EduBrain.Models.States;
 using EduBrain.Models.Subjects;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using EduBrain.Models.ClubRepresentatives;
 
 namespace EduBrain.Models.Employees
 {
@@ -42,5 +43,7 @@ namespace EduBrain.Models.Employees
         public virtual Club Club { get; set; }
         public virtual Location Location { get; set; }
         public virtual State State { get; set; }
+
+        public virtual ICollection<ClubRep> ClubReps { get; set; }
     }
 }

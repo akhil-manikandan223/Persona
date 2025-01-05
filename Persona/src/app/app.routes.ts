@@ -64,6 +64,11 @@ export const routes: Routes = [
       //   data: { breadcrumb: { title: 'Attendance', icon: 'solution' } }
       // },
       {
+        path: 'club-management',
+        loadChildren: () => import('./club-management/club-management.module').then(m => m.ClubManagementModule),
+        data: { breadcrumb: { title: 'Clubs', icon: 'block' } }
+      },
+      {
         path: 'department-management',
         loadChildren: () => import('./department-management/department-management.module').then(m => m.DepartmentManagementModule),
         data: { breadcrumb: { title: 'Departments', icon: 'block' } }

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
+using EduBrain.Models.ClubRepresentatives;
 
 public class Student
 {
@@ -40,4 +41,7 @@ public class Student
 
     [JsonIgnore]
     public virtual Club Club { get; set; }
+
+    public virtual ICollection<ClubRep> ClubReps { get; set; }  // Navigation property for ClubRep
+
 }

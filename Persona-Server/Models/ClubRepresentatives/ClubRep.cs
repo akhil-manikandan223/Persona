@@ -1,5 +1,5 @@
 ﻿using EduBrain.Models.Clubs;
-using EduBrain.Models.Teachers;
+using EduBrain.Models.Employees;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -10,17 +10,15 @@ namespace EduBrain.Models.ClubRepresentatives
         [Key]
         public int Id { get; set; }  // Primary key
 
-        [ForeignKey("ClubName")]
-        public int ClubId { get; set; }
-        public virtual Club ClubName { get; set; }  // Navigation to Club entity
+        // Foreign key relationships with the Club, Student, and Employee models
+        public int? ClubId { get; set; }  // Foreign key property
+        public virtual Club Club { get; set; }  // Navigation property for the Club entity
 
-        [ForeignKey("StudentName")]
-        public int StudentId { get; set; }
-        public virtual Student StudentName { get; set; }  // Navigation to Student entity
+        public int? StudentId { get; set; }  // Foreign key property
+        public virtual Student Student { get; set; }  // Navigation property for the Student entity
 
-        [ForeignKey("TeacherName")]
-        public int EmployeeId { get; set; }
-        public virtual Teacher TeacherName { get; set; }  // Navigation to Student entity
+        public int? EmployeeId { get; set; }  // Foreign key property
+        public virtual Employee Employee { get; set; }  // Navigation property for the Employee entity
     }
-}
 
+}

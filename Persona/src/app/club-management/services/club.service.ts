@@ -8,20 +8,50 @@ import { Observable } from 'rxjs';
 export class ClubService {
 
   private apiUrl = 'https://localhost:7188/api/Club/getallclubs';
-  private getByIdApiUrl = 'https://localhost:7188/api/Teacher/getteacherbyid';
-  private postApiUrl = 'https://localhost:7188/api/Teacher/addteacher'; 
-
+  private getByIdApiUrl = 'https://localhost:7188/api/Club/getclubbyid';
+  private postApiUrl = 'https://localhost:7188/api/Club/addclubs'; 
+  private totalCountUrl = 'https://localhost:7188/api/Club/gettotalclubmembers';
+  private totalCountByIdUrl = 'https://localhost:7188/api/Club/gettotalclubmembers';
+  private totalEmployeeCountByIdUrl = 'https://localhost:7188/api/Club/gettotalemployeemembers';
+  private totalStudentCountByIdUrl = 'https://localhost:7188/api/Club/gettotalstudentmembers';
+  private employeeListByClubIdUrl = 'https://localhost:7188/api/Club/getemployeemembersbyclubid';
+  private studentsListByClubIdUrl = 'https://localhost:7188/api/Club/getstudentmembersbyclubid';
+  
   constructor(private http: HttpClient) { }
 
   getAllClubs(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  getTeacherById(id: string): Observable<any> {
+  getClubById(id: string): Observable<any> {
     return this.http.get<any>(`${this.getByIdApiUrl}/${id}`);
   }
 
-  addTeachers(teacherData: any): Observable <any> {
-    return this.http.post<any>(this.postApiUrl, teacherData);
+  addClubs(clubData: any): Observable <any> {
+    return this.http.post<any>(this.postApiUrl, clubData);
+  }
+
+  getTotalCount() : Observable<any[]> {
+    return this.http.get<any[]>(this.totalCountUrl);
+  }
+
+  getTotalCountById(clubId: string) : Observable<any[]> {
+    return this.http.get<any[]>(`${this.totalCountByIdUrl}/${clubId}`);
+  }
+
+  getTotalEmployeeCountById(clubId: string) : Observable<any[]> {
+    return this.http.get<any[]>(`${this.totalEmployeeCountByIdUrl}/${clubId}`);
+  }
+
+  getTotalStudentCountById(clubId: string) : Observable<any[]> {
+    return this.http.get<any[]>(`${this.totalStudentCountByIdUrl}/${clubId}`);
+  }
+
+  getEmployeeMembersByClubId(clubId: string): Observable<any> {
+    return this.http.get<any>(`${this.employeeListByClubIdUrl}/${clubId}`);
+  }
+
+  getStudentMembersByClubId(clubId: string): Observable<any> {
+    return this.http.get<any>(`${this.studentsListByClubIdUrl}/${clubId}`);
   }
 }

@@ -78,3 +78,8 @@ export interface Departments {
     departmentId: number;
     departmentName: string;
 }
+
+export interface Clubs {
+    clubId: number;
+    clubName: string;
+}

@@ -88,6 +88,126 @@ namespace EduBrain.Controllers
             _context.SaveChanges();
             return NoContent();
         }
+
+        // GET: api/club/gettotalclubmembers
+        [HttpGet("gettotalclubmembers")]
+        public IActionResult GetTotalClubMembers()
+        {
+            var clubMembers = _context.Students
+                .Where(s => s.ClubId != null)
+                .GroupBy(s => s.ClubId)
+                .Select(group => new
+                {
+                    ClubId = group.Key,
+                    TotalMembers = group.Count()
+                })
+                .ToList();
+
+            var employeeClubMembers = _context.Employees
+                .Where(e => e.ClubId != null)
+                .GroupBy(e => e.ClubId)
+                .Select(group => new
+                {
+                    ClubId = group.Key,
+                    TotalMembers = group.Count()
+                })
+                .ToList();
+
+            // Combine student and employee club members by club ID
+            var totalMembersByClub = clubMembers
+                .Concat(employeeClubMembers)
+                .GroupBy(c => c.ClubId)
+                .Select(group => new
+                {
+                    ClubId = group.Key,
+                    TotalMembers = group.Sum(m => m.TotalMembers)
+                })
+                .ToList();
+
+            return Ok(totalMembersByClub);
+        }
+
+
+        // GET: api/club/gettotalclubmembersbyclubid
+        [HttpGet("gettotalclubmembers/{clubId}")]
+        public IActionResult GetTotalClubMembers(int clubId)
+        {
+            var studentClubMembers = _context.Students
+                .Where(s => s.ClubId == clubId)
+                .Count();
+
+            var employeeClubMembers = _context.Employees
+                .Where(e => e.ClubId == clubId)
+                .Count();
+
+            var totalMembers = studentClubMembers + employeeClubMembers;
+
+            return Ok(new { ClubId = clubId, TotalMembers = totalMembers });
+        }
+
+
+        // GET: api/club/gettotalstudentmembers
+        [HttpGet("gettotalstudentmembers/{clubId}")]
+        public IActionResult GetTotalStudentMembers(int clubId)
+        {
+            var totalStudentMembers = _context.Students
+                .Where(s => s.ClubId == clubId)
+                .Count();
+
+            return Ok(new { ClubId = clubId, TotalStudentMembers = totalStudentMembers });
+        }
+
+        // GET: api/club/gettotalemployeemembers
+        [HttpGet("gettotalemployeemembers/{clubId}")]
+        public IActionResult GetTotalEmployeeMembers(int clubId)
+        {
+            var totalEmployeeMembers = _context.Employees
+                .Where(e => e.ClubId == clubId)
+                .Count();
+
+            return Ok(new { ClubId = clubId, TotalEmployeeMembers = totalEmployeeMembers });
+        }
+
+        // GET: api/club/getstudentmembersbyclubid/{clubId}
+        [HttpGet("getstudentmembersbyclubid/{clubId}")]
+        public IActionResult GetStudentMembersByClubId(int clubId)
+        {
+            var studentMembers = _context.Students
+                .Where(s => s.ClubId == clubId)
+                .Select(s => new
+                {
+                    s.StudentId,
+                    s.StudentName,
+                    s.Gender,
+                    s.Mobile,
+                    s.ClassName,
+                    s.ClubId
+                })
+                .ToList();
+
+            return Ok(new { ClubId = clubId, StudentMembers = studentMembers });
+        }
+
+        // GET: api/club/getemployeemembersbyclubid/{clubId}
+        [HttpGet("getemployeemembersbyclubid/{clubId}")]
+        public IActionResult GetEmployeeMembersByClubId(int clubId)
+        {
+            var employeeMembers = _context.Employees
+                .Where(e => e.ClubId == clubId)
+                .Select(e => new
+                {
+                    e.EmployeeCode,   
+                    e.EmployeeName,
+                    e.Gender,
+                    e.Mobile,
+                    e.DepartmentId,
+                    e.ClubId
+                })
+                .ToList();
+
+            return Ok(new { ClubId = clubId, EmployeeMembers = employeeMembers });
+        }
+
     }
 }
 

@@ -112,9 +112,9 @@ namespace EduBrain.Data
 
             // Student Configuration
             modelBuilder.Entity<Student>()
-                .HasOne(s => s.Club)
-                .WithMany(c => c.Students)
-                .HasForeignKey(s => s.ClubId)
+                .HasOne(s => s.Club) // Student has a reference to Club
+                .WithMany(c => c.Students) // Club has many Students
+                .HasForeignKey(s => s.ClubId) // Student's ClubId as the foreign key
                 .OnDelete(DeleteBehavior.Restrict); // Use Restrict to prevent cascade deletes
 
             // Teacher Configuration
@@ -154,61 +154,62 @@ namespace EduBrain.Data
                 .HasForeignKey(t => t.StateId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            // Employee Configuration
-            modelBuilder.Entity<Employee>()
-                .HasOne(t => t.Category)
-                .WithMany() // Assuming one category can have many teachers
-                .HasForeignKey(t => t.CategoryId)
-                .OnDelete(DeleteBehavior.Restrict); // Adjust according to your needs
+                // Employee Configuration
+                modelBuilder.Entity<Employee>()
+                    .HasOne(t => t.Category)
+                    .WithMany() // Assuming one category can have many teachers
+                    .HasForeignKey(t => t.CategoryId)
+                    .OnDelete(DeleteBehavior.Restrict); // Adjust according to your needs
 
-            modelBuilder.Entity<Employee>()
-                .HasOne(t => t.Department)
-                .WithMany()
-                .HasForeignKey(t => t.DepartmentId)
-                .OnDelete(DeleteBehavior.Restrict); // Adjust according to your needs
+                modelBuilder.Entity<Employee>()
+                    .HasOne(t => t.Department)
+                    .WithMany()
+                    .HasForeignKey(t => t.DepartmentId)
+                    .OnDelete(DeleteBehavior.Restrict); // Adjust according to your needs
 
-            modelBuilder.Entity<Employee>()
-                .HasOne(t => t.Subject)
-                .WithMany()
-                .HasForeignKey(t => t.SubjectId)
-                .OnDelete(DeleteBehavior.Restrict); // Adjust according to your needs
+                modelBuilder.Entity<Employee>()
+                    .HasOne(t => t.Subject)
+                    .WithMany()
+                    .HasForeignKey(t => t.SubjectId)
+                    .OnDelete(DeleteBehavior.Restrict); // Adjust according to your needs
 
-            modelBuilder.Entity<Employee>()
-                .HasOne(t => t.Club)
-                .WithMany()
-                .HasForeignKey(t => t.ClubId)
-                .OnDelete(DeleteBehavior.Cascade); // Adjust according to your needs
+                modelBuilder.Entity<Employee>()
+                    .HasOne(t => t.Club)
+                    .WithMany()
+                    .HasForeignKey(t => t.ClubId)
+                    .OnDelete(DeleteBehavior.Restrict); // Adjust according to your needs
 
-            modelBuilder.Entity<Employee>()
-                .HasOne(t => t.Location)
-                .WithMany() // Assuming one location can have many teachers
-                .HasForeignKey(t => t.LocationId)
-                .OnDelete(DeleteBehavior.Cascade);
+                modelBuilder.Entity<Employee>()
+                    .HasOne(t => t.Location)
+                    .WithMany() // Assuming one location can have many teachers
+                    .HasForeignKey(t => t.LocationId)
+                    .OnDelete(DeleteBehavior.Cascade);
 
-            modelBuilder.Entity<Employee>()
-                .HasOne(t => t.State)
-                .WithMany() // Assuming one state can have many teachers
-                .HasForeignKey(t => t.StateId)
-                .OnDelete(DeleteBehavior.Cascade);
+                modelBuilder.Entity<Employee>() 
+                    .HasOne(t => t.State)
+                    .WithMany() // Assuming one state can have many teachers
+                    .HasForeignKey(t => t.StateId)
+                    .OnDelete(DeleteBehavior.Cascade);
 
-            // ClubRep Configuration
-            modelBuilder.Entity<ClubRep>()
-                .HasOne(cr => cr.ClubName)
-                .WithMany()
-                .HasForeignKey(cr => cr.ClubId)
-                .OnDelete(DeleteBehavior.Cascade); // Adjust delete behavior as necessary
+                // ClubRep Configuration
+                modelBuilder.Entity<ClubRep>()
+                    .HasOne(c => c.Club)
+                    .WithMany() // Assuming one Club can have many ClubReps
+                    .HasForeignKey(c => c.ClubId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<ClubRep>()
-                .HasOne(cr => cr.StudentName)
-                .WithMany()
-                .HasForeignKey(cr => cr.StudentId)
-                .OnDelete(DeleteBehavior.Cascade); // Adjust delete behavior as necessary
+                modelBuilder.Entity<ClubRep>()
+                    .HasOne(s => s.Student)
+                    .WithMany() // Assuming one Student can have many ClubReps
+                    .HasForeignKey(s => s.StudentId)
+                    .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<ClubRep>()
-                .HasOne(cr => cr.TeacherName)
-                .WithMany()
-                .HasForeignKey(cr => cr.EmployeeId)
-                .OnDelete(DeleteBehavior.Cascade); // Adjust delete behavior as necessary
+
+                modelBuilder.Entity<ClubRep>()
+                    .HasOne(e => e.Employee)
+                    .WithMany() // Assuming one Employee can have many ClubReps
+                    .HasForeignKey(e => e.EmployeeId)
+                    .OnDelete(DeleteBehavior.SetNull);
 
             // Configure the Location-State relationship
             modelBuilder.Entity<Location>()
